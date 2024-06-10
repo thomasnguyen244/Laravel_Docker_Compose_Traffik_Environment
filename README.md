@@ -24,24 +24,19 @@ Run Treafik proxy before:
 - then run command:
 ``docker-compose up -d``
 
-* Step1:
+### Step1:
 - Docker Build Image: ``docker-compose build``
-
-* Step 2:
+### Step 2:
 - Run Docker Containers: ``docker-compose up -d``
-
-* Step 3: 
+### Step 3: 
 - Composer Install: ``docker-compose run --rm composer install``
 
 Or We alsow can create Laravel Project and Set Database with command bellow:
 ``docker-compose run --rm composer create-project laravel/laravel``
-
-* Step 4:
+### Step 4:
 - Generate Key: ``docker-compose run --rm artisan key:generate``
-
-* Step 5:
+### Step 5:
 - Clear Config Cache: ``docker-compose run --rm artisan config:cache``
-
-* Step 6:
+### Step 6:
 - Migrate Database: ``docker-compose run  --rm artisan migrate``
 
