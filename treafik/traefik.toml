@@ -1,0 +1,30 @@
+defaultEntryPoints = ["http", "https", "web"]
+[entryPoints]
+  [entryPoints.web]
+  address = ":80"
+    #[entryPoints.http.redirect]
+    #entryPoint = "https"
+  [entryPoints.http]
+  address = ":80"
+    #[entryPoints.http.redirect]
+    #entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
+      [[entryPoints.https.tls.certificates]]
+      certFile = "/certs/workwiththomas.com.pem"
+      keyFile = "/certs/workwiththomas.com.key"
+  [entryPoints.dashboard]
+    address = ":8080"
+    [entryPoints.dashboard.auth]
+      [entryPoints.dashboard.auth.basic]
+        users = ["admin:$apr1$e26VUYw4$cjiPvGc5qkxTaCpOwkSW5."]
+[api]
+entrypoint="dashboard"
+
+http:
+  middlewares:
+    test-auth:
+      basicAuth:
+        users:
+          - "admin:$apr1$e26VUYw4$cjiPvGc5qkxTaCpOwkSW5."

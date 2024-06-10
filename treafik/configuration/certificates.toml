@@ -1,0 +1,3 @@
+[[tls.certificates]] #first certificate
+   certFile = "certs/workwiththomas.com.pem"
+   keyFile = "certs/workwiththomas.com.key"

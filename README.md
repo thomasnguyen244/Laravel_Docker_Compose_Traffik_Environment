@@ -26,6 +26,11 @@ In the docker stacks we are using there application/programs:
 
 ## Run those commands
 
+Run Treafik proxy before:
+- cd to treafik sub-folder.
+- then run command:
+``docker-compose up -d``
+
 Step1:
 - Docker Build Image: ``docker-compose build``
 

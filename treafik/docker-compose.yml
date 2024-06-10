@@ -1,0 +1,43 @@
+version: "3.7"
+services:
+  traefik:
+    image: traefik
+    restart: always
+    labels:
+      - traefik.http.routers.traefik.rule=Host(`proxy.monitor.docker`)
+      - traefik.http.services.traefik.loadbalancer.server.port=8080
+      - traefik.docker.network=proxy
+      - "traefik.frontend.auth.basic=thomasnguyen:{SHA}Yu5VJmTSkwVWpWMMflLu8L1nyH0="
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--providers.file.directory=/configuration/"
+      - "--providers.file.watch=true"
+      - --serversTransport.insecureSkipVerify=true
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - ./certs:/certs
+      - ./traefik.toml:/etc/traefik/conf/acme.toml:ro
+      - ./acme.json:/etc/traefik/conf/acme.json:rw
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - proxy
+
+  whoami:
+    image: "containous/whoami"
+    container_name: "simple-service"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+
+networks:
+  proxy:
+    external:
+      name: proxy
